@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+
+
+<form action= "/blog", method="post">
+    <label>
+        <input type="hidden" name='name' />
+    </label> 
+    <label>
+        <input type="hidden" name='entry' />
+    </label>
+</form> 
+
+        
+
+
+
+
+{% if post|length == 0 %}
+<p>Have to enter valid post</p>
+{% else %}
+
+    {% for blog in post %}
+    <p><u><h2>{{blog.name}}</h2></u>
+            
+        <form method="POST" action="/blog" style="display:inline-block;">
+        <input type="hidden" name="name-id" value="{{blog.id}}" />
+                    
+        </form>
+    </p>
+        
+    <p>{{blog.entry}}
+        <form method="POST" action="/blog" style="display:inline-block;">
+        <input type="hidden" name="name-id" value="{{blog.id}}" />
+        </form>
+    </p>
+
+    <hr />
+
+        {% endfor %}
+        
+{% endif %} 
+    
+
+
+
+{% endblock %}
+
+
+
+    
