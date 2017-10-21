@@ -1,13 +1,27 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Build A Blog</title>
+{% extends "base.html" %}
 
-    </head>
-<body>
-    <p>{{name}}</p>
-    <p>{{entry}}</p>
+{% block content %}
+
+
+
+
     
+<!--{% for blog in posts %}
 
-</body>
-</html>
+    <p><u><h2>{{blog.id}}</h2></u></p>
+    <h2><p>{{blog.name}}</p></h2>
+    <p>{{blog.entry}}</p>
+
+{% endfor %}-->
+{% for blog in posts %}
+    <hr />   
+    <div align= "center" color= "red"><p><h1>{{blog.name}}</h1></p>
+    <h3><p>{{blog.entry}}</p></h3>
+    </div>
+
+
+{% endfor %}
+{% endblock %}
+
+
+    

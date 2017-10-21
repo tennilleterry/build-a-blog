@@ -5,50 +5,31 @@
 
 
 
-
-<form action= "/blog", method="post">
-    <label>
-        <input type="hidden" name='name' />
-    </label> 
-    <label>
-        <input type="hidden" name='entry' />
-    </label>
-</form> 
-
-        
-
-
-
-
-{% if post|length == 0 %}
-<p>Have to enter valid post</p>
-{% else %}
-
-    {% for blog in post %}
-    <p><u><h2>{{blog.name}}</h2></u>
-            
-        <form method="POST" action="/blog" style="display:inline-block;">
-        <input type="hidden" name="name-id" value="{{blog.id}}" />
-                    
-        </form>
-    </p>
-        
-    <p>{{blog.entry}}
-        <form method="POST" action="/blog" style="display:inline-block;">
-        <input type="hidden" name="name-id" value="{{blog.id}}" />
-        </form>
-    </p>
-
-    <hr />
-
-        {% endfor %}
-        
-{% endif %} 
+<!--{% for blog in post %}
+<p><u><h2><a href="/singlepost" >{{blog.name}}</a></h2></u></p>
+<p>{{blog.entry}}</p>
     
+    {% endfor %}-->
+
+<!--{% for blog in post %}
+<a href= '@string.Format("http://127.0.0.1:500/singlepost?id={0}", blog.id)'>{{blog.name}}</a>
+<p>{{blog.entry}}</p>
+    
+    {% endfor %}-->
 
 
+{% for blog in post %}
+<h1><a href= "{{ url_for('single_post', id=blog.id) }}">{{blog.name}}</a></h1>
+<h2><p>{{blog.entry}}</p></h2>
+<hr />    
+    {% endfor %}
 
 {% endblock %}
+
+
+
+
+
 
 
 

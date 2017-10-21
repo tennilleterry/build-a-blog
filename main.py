@@ -22,30 +22,14 @@ class Blog(db.Model):
 
 @app.route("/")
 def index():
-    #return render_template('base.html')
+    
     return redirect('/blog')
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def add_entry():
-    
 
-    name = request.args.get('name')
-    entry = request.args.get('entry')
-
-    name_error = ''
-    entry_error = ''
-
-    if name == "":
-        name_error = 'Have to enter a Title'
         
-
-    if entry == "":
-        entry_error = 'Have to enter blog post'
-        
-    
-    
-
-    if request.method == 'POST' and not name_error and not entry_error:
+    if request.method == 'POST':
         name = request.form['name']
         entry = request.form['entry']
 
@@ -53,35 +37,65 @@ def add_entry():
         db.session.add(new_name)
         db.session.commit()
 
-        return redirect('/blog')
-
-    else:
-        return render_template('newpost.html', name_error=name_error, entry_error=entry_error)
-
-
         
-    return render_template('newpost.html', name=name, entry=entry)       
-    
-        
+        name_error = ''
+        entry_error = ''
+
+        if name == "":
+            name_error = 'Please fill in the title'
+            name = ''
+            
         
 
-    
-    
+        if entry == "":
+            entry_error = 'Please fill in the body'
+            entry =''
+
+        
+         
+
+        if not name_error and not entry_error:
+           
+            #id_name = request.args.get("id")
+            #post = Blog.query.filter_by(id=id_name).all()
+            #return render_template('single.html', post=post) 
+            return render_template('single.html', name=name, entry=entry) 
+             
+           # return redirect('/singlepost')
+        else:
+            return render_template('newpost.html', name=name, entry=entry, name_error=name_error, entry_error=entry_error)  
+
+        
+        
+    return render_template('newpost.html')
     
 
-@app.route('/blog', methods=['POST', 'GET'])
+@app.route('/blog')
 def blog_page():
+    #id_name = request.args.get("id")
 
-
+    #post = Blog.query.filter_by(id=id_name).all()
     post = Blog.query.all()
         
-        
     return render_template('blog.html', post=post)   
+         
+
+   
+@app.route('/singlepost')
+def single_post():
+    
+    
+    id_name = request.args.get("id")
+
+    posts = Blog.query.filter_by(id=id_name).all()
         
-    
-     
-    
+    return render_template('ind_blog.html', posts=posts)
 
 
+ 
+       
+    
 if __name__ == '__main__':
     app.run()
+
+
