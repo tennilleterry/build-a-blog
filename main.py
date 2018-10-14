@@ -32,10 +32,9 @@ def add_entry():
     if request.method == 'POST':
         name = request.form['name']
         entry = request.form['entry']
+        id_name = request.form['id_name']
 
-        new_name =Blog(name=name, entry=entry )
-        db.session.add(new_name)
-        db.session.commit()
+        
 
         
         name_error = ''
@@ -45,8 +44,6 @@ def add_entry():
             name_error = 'Please fill in the title'
             name = ''
             
-        
-
         if entry == "":
             entry_error = 'Please fill in the body'
             entry =''
@@ -55,13 +52,16 @@ def add_entry():
          
 
         if not name_error and not entry_error:
-           
-            #id_name = request.args.get("id")
-            #post = Blog.query.filter_by(id=id_name).all()
-            #return render_template('single.html', post=post) 
-            return render_template('single.html', name=name, entry=entry) 
+            new_name = Blog(name, entry)
+            db.session.add(new_name)
+            db.session.commit()
+            
+            
+
+            post = new_name.id
+         
+            return redirect('/blog?id={0}'.format(post)) 
              
-           # return redirect('/singlepost')
         else:
             return render_template('newpost.html', name=name, entry=entry, name_error=name_error, entry_error=entry_error)  
 
@@ -72,9 +72,10 @@ def add_entry():
 
 @app.route('/blog')
 def blog_page():
-    #id_name = request.args.get("id")
+    
 
-    #post = Blog.query.filter_by(id=id_name).all()
+    
+    
     post = Blog.query.all()
         
     return render_template('blog.html', post=post)   
@@ -90,6 +91,10 @@ def single_post():
     posts = Blog.query.filter_by(id=id_name).all()
         
     return render_template('ind_blog.html', posts=posts)
+    
+
+    
+
 
 
  

@@ -6,6 +6,12 @@
         <h1>Add Blog Entry</h1>
         <form action= "/newpost", method="post">
             <label>
+            
+                <input type="hidden" name='id_name' />
+    
+            </label>
+        
+            <label>
                 Title for your new blog:
                 <input type="text" name='name' />
                 <div class="error">{{name_error}}</div>

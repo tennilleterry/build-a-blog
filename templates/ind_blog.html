@@ -6,18 +6,12 @@
 
 
     
-<!--{% for blog in posts %}
 
-    <p><u><h2>{{blog.id}}</h2></u></p>
-    <h2><p>{{blog.name}}</p></h2>
-    <p>{{blog.entry}}</p>
-
-{% endfor %}-->
 {% for blog in posts %}
     <hr />   
-    <div align= "center" color= "red"><p><h1>{{blog.name}}</h1></p>
+    <div align= "center"><p><h1>{{blog.name}}</h1></p></div>
     <h3><p>{{blog.entry}}</p></h3>
-    </div>
+    
 
 
 {% endfor %}
