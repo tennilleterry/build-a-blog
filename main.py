@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:Jordyn31@localhost:8889/build-a-blog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build_a_blog:Jordyn31@localhost:8889/build_a_blog'
 app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
@@ -20,87 +20,52 @@ class Blog(db.Model):
         self.entry = entry
         
 
-@app.route("/")
-def index():
-    
-    return redirect('/blog')
-
 @app.route('/newpost', methods=['POST', 'GET'])
-def add_entry():
+def add_blog():
 
-        
+    name_error = ""
+    entry_error = ""
+
     if request.method == 'POST':
         name = request.form['name']
         entry = request.form['entry']
-        id_name = request.form['id_name']
-
-        
-
-        
-        name_error = ''
-        entry_error = ''
 
         if name == "":
-            name_error = 'Please fill in the title'
-            name = ''
+            name_error = "Enter title of blog post"
             
         if entry == "":
-            entry_error = 'Please fill in the body'
-            entry =''
+            entry_error = "Enter blog post"
 
-        
-         
 
         if not name_error and not entry_error:
-            new_name = Blog(name, entry)
-            db.session.add(new_name)
+            new_blog = Blog(name, entry)
+            db.session.add(new_blog)
             db.session.commit()
-            
-            
+            id = new_blog.id
+            return redirect('/blog?id={}'.format(id))
 
-            post = new_name.id
-         
-            return redirect('/blog?id={0}'.format(post)) 
-             
-        else:
-            return render_template('newpost.html', name=name, entry=entry, name_error=name_error, entry_error=entry_error)  
+    return render_template('newpost.html', name_error=name_error, entry_error=entry_error)
+
+@app.route('/blog', methods=['POST', 'GET'])
+def home():
+        
+    blogs = Blog.query.all()
+    
+
+    id = request.args.get("id")
+    if id is not None:
+        blog = Blog.query.get(str(id))
+     
+
+        return render_template('single.html', blog=blog)
+
+
+    return render_template('blog.html', blogs=blogs)
+
 
         
-        
-    return render_template('newpost.html')
-    
-
-@app.route('/blog')
-def blog_page():
-    
-
-    
-    
-    post = Blog.query.all()
-        
-    return render_template('blog.html', post=post)   
-         
-
-   
-@app.route('/singlepost')
-def single_post():
-    
-    
-    id_name = request.args.get("id")
-
-    posts = Blog.query.filter_by(id=id_name).all()
-        
-    return render_template('ind_blog.html', posts=posts)
-    
-
-    
 
 
-
- 
-       
     
 if __name__ == '__main__':
     app.run()
-
-

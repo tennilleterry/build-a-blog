@@ -2,28 +2,18 @@
 
 {% block content %}
 
+<form action="/blog" method="POST"></form>
+    {% if blogs|length == 0 %}
+    <p>No blogs yet</p>
+    {% else %}
 
+        {% for blog in blogs %}
+        <a href="?id={{blog.id}}"><h2>{{blog.name}}</h2></a>
+        <p>{{blog.entry}}</p>
+        <hr />
 
-
-<!--{% for blog in post %}
-<p><u><h2><a href="/singlepost" >{{blog.name}}</a></h2></u></p>
-<p>{{blog.entry}}</p>
-    
-    {% endfor %}-->
-
-<!--{% for blog in post %}
-<a href= '@string.Format("http://127.0.0.1:500/singlepost?id={0}", blog.id)'>{{blog.name}}</a>
-<p>{{blog.entry}}</p>
-    
-    {% endfor %}-->
-
-
-{% for blog in post %}
-<h1><a href= "{{ url_for('single_post', id=blog.id) }}">{{blog.name}}</a></h1>
-<h2><p>{{blog.entry}}</p></h2>
-<hr />    
-    {% endfor %}
-
+        {% endfor %}
+{% endif %}
 {% endblock %}
 
 
